@@ -57,6 +57,15 @@ class UserResolver {
     }
   }
 
+  @Mutation(() => String)
+  async logout(@Ctx() context: any) {
+    context.res.setHeader(
+      "Set-Cookie",
+      `token=; Secure; HttpOnly;expires=${new Date(Date.now()).toUTCString()}`
+    );
+    return "logged out";
+  }
+
   @Query(() => UserInfo)
   async getUserInfo(@Ctx() context: any) {
     if (context.email) {
