@@ -20,7 +20,7 @@ const RegisterPage = () => {
       variables: { data: { email: data.login, password: data.password } },
       onCompleted: (result) => {
         console.log("result", result);
-        navigate("/login");
+        navigate("/confirm");
       },
       onError: (error) => {
         console.log("error", error);
@@ -33,14 +33,14 @@ const RegisterPage = () => {
       <h2>Register</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
-          defaultValue={"john.doe@gmail.com"}
+          defaultValue={"personne@gmail.com"}
           placeholder="email"
           {...register("login", { required: true })}
         />
         {errors.password && <span>This field is required</span>}
 
         <input
-          defaultValue={"example"}
+          defaultValue={"test"}
           placeholder="password"
           type="password"
           {...register("password", { required: true })}
