@@ -21,9 +21,17 @@ const start = async () => {
 
   const schema = await buildSchema({
     resolvers: [AdResolver, CategoryResolver, TagResolver, UserResolver],
-    authChecker: ({ context }) => {
+    authChecker: ({ context }, rolesForOperation) => { //on ajoute un authChecker pour vérifier les roles
       if (context.email) {
-        return true;
+        if (rolesForOperation.length === 0) { //si il n'y a pas de roles dans le tableau on retourne true
+          return true;
+        } else {
+          if (rolesForOperation.includes(context.userRole)) { //si le role de l'utilisateur est dans le tableau on retourne true
+            return true;
+          } else {
+            return false;
+          }
+        }
       } else {
         return false;
       }
@@ -46,7 +54,11 @@ const start = async () => {
           console.log("payload in context", payload);
           if (payload) {
             console.log("payload was found and returned to resolver");
-            return { email: payload.email, res: res };
+            return {
+              email: payload.email,
+              userRole: payload.userRole, //on ajoute le role de l'utilisateur dans le context
+              res: res,
+            };
           }
         }
       }

@@ -17,16 +17,4 @@ CREATE TABLE IF NOT EXISTS ad
 SELECT * FROM ad
 LEFT JOIN category ON category.id = ad.category_id;
 
-/*
-INSERT INTO ad (title, description, owner, price, picture, location, createdAt, category_id)
-    VALUES (
-        "blouson",
-        "je vends mon blouson",
-        "john.doe@gmail.com",
-        100,
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtkhSfpK4Kc3w6PMHl0at0J8A3XlBeV2TAtw&s",
-        "Lyon",
-        DateTime('now'),
-        4
-    );
 
