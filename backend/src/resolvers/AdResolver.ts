@@ -61,7 +61,7 @@ class AdResolver {
     return result;
   }
 
-  @Authorized("ADMIN") //on ajoute un role ADMIN pour pouvoir supprimer une annonce
+  @Authorized("ADMIN")
   @Mutation(() => String)
   async deleteAd(@Arg("id") id: number) {
     const result = await Ad.delete(id);
@@ -73,9 +73,17 @@ class AdResolver {
     }
   }
 
+  @Authorized() // only the owner of the ad can update it
   @Mutation(() => String)
-  async updateAd(@Arg("data") updateAdData: UpdateAdInput) {
+  async updateAd(
+    @Arg("data") updateAdData: UpdateAdInput, // the new data
+    @Ctx() context: any // the context
+  ) {
     let adToUpdate = await Ad.findOneByOrFail({ id: updateAdData.id });
+    if (adToUpdate.user.email !== context.email) {
+      // check if the user is the owner of the ad
+      throw new Error("Unauthorized");
+    }
     console.log("ad to update", adToUpdate);
     adToUpdate = Object.assign(adToUpdate, updateAdData);
     console.log("ad to update", adToUpdate);
