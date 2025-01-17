@@ -22,6 +22,9 @@ export class User extends BaseEntity {
   @Column() //pas de @Field car on ne veut pas renvoyer le password
   hashedPassword: string;
 
+  @Column({ default: "USER" }) //default permet de dire que le role par défaut est USER
+  role: string;
+
   @OneToMany(() => Ad, (ad) => ad.user)
   @Field(() => [Ad]) //Field permet de renvoyer un tableau d'annonces en graphQL
   ads: Ad[]; //un user peut avoir plusieurs annonces on attend un tableau de Ad
